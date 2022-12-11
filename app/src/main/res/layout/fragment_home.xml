@@ -180,6 +180,61 @@
             app:cardElevation="24dp"
             >
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25">
+
+                </LinearLayout>
+
+                <Button
+                    android:backgroundTint="@color/white"
+                    android:id="@+id/button_hot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:text="РЕЖИМ ОХЛАЖДЕНИЯ"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:drawableLeft="@drawable/ic_snow"
+                    >
+                </Button>
+
+                <Button
+                    android:backgroundTint="@color/white"
+                    android:id="@+id/button_cold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:text="РЕЖИМ НАГРЕВА"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:drawableLeft="@drawable/ic_hot"
+                    >
+                </Button>
+
+                <Button
+                    android:backgroundTint="@color/white"
+                    android:id="@+id/button_auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:text="АВТО РЕЖИМ"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:drawableLeft="@drawable/ic_auto"
+                    ></Button>
+
+            </LinearLayout>
+
         </androidx.cardview.widget.CardView>
 
 </LinearLayout>
