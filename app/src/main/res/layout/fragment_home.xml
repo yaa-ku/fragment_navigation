@@ -194,7 +194,7 @@
 
                 <Button
                     android:backgroundTint="@color/white"
-                    android:id="@+id/button_hot"
+                    android:id="@+id/button_cold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
@@ -208,7 +208,7 @@
 
                 <Button
                     android:backgroundTint="@color/white"
-                    android:id="@+id/button_cold"
+                    android:id="@+id/button_hot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
