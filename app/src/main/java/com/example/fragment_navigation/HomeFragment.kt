@@ -12,6 +12,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.example.fragment_navigation.databinding.FragmentHomeBinding
 import com.google.gson.Gson
@@ -38,6 +40,12 @@ class HomeFragment : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
+        val OutTemp: TextView = view.findViewById(R.id.OutTemp);
+        val InTemp: TextView = view.findViewById(R.id.InTemp);
+        val OutHum: TextView = view.findViewById(R.id.OutHum);
+        val InHum: TextView = view.findViewById(R.id.InHum);
+        val EditTemperature: EditText = view.findViewById(R.id.editTemperature)
+
         h = object : Handler() {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
@@ -54,11 +62,10 @@ class HomeFragment : Fragment() {
                             var gson = Gson()
                             data = gson.fromJson(sbprint, Data::class.java)
                             Toast.makeText(context, data.sensor_0[0].toString(),Toast.LENGTH_LONG).show()
-                            binding.InTemp.text = data.sensor_0[0].toString()
-
-                            //binding.InHum.text = data.sensor_0[1].toString()
-                            binding.OutTemp.text = data.sensor_1[0].toString()
-                            binding.OutHum.text = data.sensor_1[1].toString()
+                            InTemp.text = data.sensor_0[0].toString()
+                            InHum.text = data.sensor_0[1].toString()
+                            OutTemp.text = data.sensor_1[0].toString()
+                            OutHum.text = data.sensor_1[1].toString()
                         }
                     }
                 }
@@ -69,18 +76,36 @@ class HomeFragment : Fragment() {
         val button_cold: Button = view.findViewById(R.id.button_cold);
         val gson = Gson()
         button_cold.setOnClickListener{
-            //mConnectedThread!!.write(gson.toJson(Request("set_temp_support", 0, 100)))
-            mConnectedThread!!.write("%{\"type\":\"g_temp_info\"}@")
+            var request = "%"
+            request += gson.toJson(Request("set_temp_support", 0, 100))
+            request += "@"
+            mConnectedThread!!.write(request)
         }
 
         val button_hot: Button = view.findViewById(R.id.button_hot);
         button_hot.setOnClickListener{
-            mConnectedThread!!.write(gson.toJson(Request("set_temp_support", 255, 100)))
+            var request = "%"
+            request += gson.toJson(Request("set_temp_support", 255, 100))
+            request += "@"
+            mConnectedThread!!.write(request)
         }
 
         val button_auto: Button = view.findViewById(R.id.button_auto);
         button_auto.setOnClickListener{
-            mConnectedThread!!.write(gson.toJson(Request("set_temp_support", 0, 100)))
+            try {
+                var request = "%"
+                request += gson.toJson(
+                    Request(
+                        "set_temp_support",
+                        EditTemperature.text.toString().toInt(),
+                        100
+                    )
+                )
+                request += "@"
+                mConnectedThread!!.write(request)
+            }catch(e: java.lang.Exception){
+                Toast.makeText(context, "Некорректное значение", Toast.LENGTH_SHORT).show()
+            }
         }
 
 

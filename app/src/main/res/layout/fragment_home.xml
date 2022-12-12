@@ -231,18 +231,34 @@
                     >
                 </Button>
 
-                <Button
-                    android:backgroundTint="@color/white"
-                    android:id="@+id/button_auto"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
-                    android:text="АВТО РЕЖИМ"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:drawableLeft="@drawable/ic_auto"
-                    ></Button>
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:backgroundTint="@color/white"
+                        android:id="@+id/button_auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.75"
+                        android:text="АВТО РЕЖИМ"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:drawableLeft="@drawable/ic_auto"
+                        ></Button>
+
+                    <EditText
+                        android:id="@+id/editTemperature"
+                        android:layout_width="100dp"
+                        android:layout_height="75dp"
+                        android:inputType="numberDecimal"
+                        android:text="20">
+                    </EditText>
+
+                </LinearLayout>
 
             </LinearLayout>
 
