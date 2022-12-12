@@ -123,39 +123,39 @@ public class PickFilterFragment extends Fragment implements DatePickerDialog.OnD
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ChartsFragment.Store.INSTANCE.setStartDate(textView3.getText().toString());
+                Store.INSTANCE.setStartDate(textView3.getText().toString());
                 if (onOffSwitch.isChecked()) {
-                    ChartsFragment.Store.INSTANCE.setEndDate(textView2.getText().toString());
+                    Store.INSTANCE.setEndDate(textView2.getText().toString());
                 } else {
-                    ChartsFragment.Store.INSTANCE.setEndDate("");
+                    Store.INSTANCE.setEndDate("");
                 }
                 if (onOffSwitchTemp.isChecked()) {
-                    ChartsFragment.Store.INSTANCE.setValTemp(Integer.valueOf(temp.getText().toString()));
+                    Store.INSTANCE.setValTemp(Integer.valueOf(temp.getText().toString()));
                 } else {
-                    ChartsFragment.Store.INSTANCE.setValTemp(Integer.valueOf(99));
+                    Store.INSTANCE.setValTemp(Integer.valueOf(99));
                 }
                 if (onOffSwitchHumid.isChecked()) {
-                    ChartsFragment.Store.INSTANCE.setValHumid(Integer.valueOf(humid.getText().toString()));
+                    Store.INSTANCE.setValHumid(Integer.valueOf(humid.getText().toString()));
                 } else {
-                    ChartsFragment.Store.INSTANCE.setValHumid(Integer.valueOf(99));
+                   Store.INSTANCE.setValHumid(Integer.valueOf(99));
                 }
                 if (spin.getSelectedItemPosition() == 0) {
-                    ChartsFragment.Store.INSTANCE.setSelectedOperator1(0);
+                    Store.INSTANCE.setSelectedOperator1(0);
                 } else if (spin.getSelectedItemPosition() == 1) {
-                    ChartsFragment.Store.INSTANCE.setSelectedOperator1(1);
+                   Store.INSTANCE.setSelectedOperator1(1);
                 } else if (spin.getSelectedItemPosition() == 2) {
-                    ChartsFragment.Store.INSTANCE.setSelectedOperator1(2);
+                   Store.INSTANCE.setSelectedOperator1(2);
                 } else {
-                    ChartsFragment.Store.INSTANCE.setSelectedOperator1(3);
+                    Store.INSTANCE.setSelectedOperator1(3);
                 }
                 if (spin2.getSelectedItemPosition() == 0) {
-                    ChartsFragment.Store.INSTANCE.setSelectedOperator2(0);
+                    Store.INSTANCE.setSelectedOperator2(0);
                 } else if (spin2.getSelectedItemPosition() == 1) {
-                    ChartsFragment.Store.INSTANCE.setSelectedOperator2(1);
+                    Store.INSTANCE.setSelectedOperator2(1);
                 } else if (spin2.getSelectedItemPosition() == 2) {
-                    ChartsFragment.Store.INSTANCE.setSelectedOperator2(2);
+                    Store.INSTANCE.setSelectedOperator2(2);
                 } else {
-                    ChartsFragment.Store.INSTANCE.setSelectedOperator2(3);
+                    Store.INSTANCE.setSelectedOperator2(3);
                 }
                 //Intent intent = new Intent(view.getContext(), Monitoring.class);
                 //view.getContext().startActivity(intent);
