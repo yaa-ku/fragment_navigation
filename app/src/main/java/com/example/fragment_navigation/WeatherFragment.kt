@@ -28,10 +28,12 @@ class WeatherFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.getWeather.setOnClickListener {
-            var city = binding.searchCity.text.toString()
+            var city = "Khabarovsk"
             getResult(city)
-        }
+        //binding.getWeather.setOnClickListener {
+        //    var city = binding.searchCity.text.toString()
+        //    getResult(city)
+        //}
     }
 
     private fun getResult(city: String){

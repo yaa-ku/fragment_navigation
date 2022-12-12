@@ -205,39 +205,5 @@
             </LinearLayout>
         </LinearLayout>
 
-        <Button
-            android:background="#3CF1EBF1"
-            android:id="@+id/getWeather"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/overviewContainer"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="226dp"
-            android:layout_marginBottom="50dp"
-            android:text="Найти" />
-
-        <Button
-            android:background="#3CF1EBF1"
-            android:id="@+id/btnSignOut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/overviewContainer"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="58dp"
-            android:layout_marginBottom="50dp"
-            android:text="Назад" />
-
-        <EditText
-            android:id="@+id/searchCity"
-            android:layout_width="254dp"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/overviewContainer"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="58dp"
-            android:layout_marginBottom="119dp"
-            android:ems="10"
-            android:hint="Введите город (Английский)"
-            android:inputType="textPersonName"
-            android:minHeight="48dp" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
