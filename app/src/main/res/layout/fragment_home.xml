@@ -56,6 +56,7 @@
                             android:minHeight="40dp">
                         </ImageView>
                         <TextView
+                            android:id="@+id/OutTemp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
@@ -81,6 +82,7 @@
                             android:minHeight="40dp">
                         </ImageView>
                         <TextView
+                            android:id="@+id/OutHum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
@@ -127,6 +129,7 @@
                             android:minHeight="40dp">
                         </ImageView>
                         <TextView
+                            android:id="@+id/InTemp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
@@ -152,6 +155,7 @@
                             android:minHeight="40dp">
                         </ImageView>
                         <TextView
+                            android:id="@+id/InHum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
