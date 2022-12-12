@@ -37,6 +37,7 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
         binding = FragmentHomeBinding.inflate(layoutInflater)
+
         h = object : Handler() {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
@@ -52,8 +53,10 @@ class HomeFragment : Fragment() {
                             Log.d(TAG, sbprint)
                             var gson = Gson()
                             data = gson.fromJson(sbprint, Data::class.java)
+                            Toast.makeText(context, data.sensor_0[0].toString(),Toast.LENGTH_LONG).show()
                             binding.InTemp.text = data.sensor_0[0].toString()
-                            binding.InHum.text = data.sensor_0[1].toString()
+
+                            //binding.InHum.text = data.sensor_0[1].toString()
                             binding.OutTemp.text = data.sensor_1[0].toString()
                             binding.OutHum.text = data.sensor_1[1].toString()
                         }
