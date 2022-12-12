@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.example.fragment_navigation.databinding.FragmentHomeBinding
 import com.google.gson.Gson
 import java.io.IOException
@@ -60,12 +60,20 @@ class HomeFragment : Fragment() {
                             sbprint += "}"
                             Log.d(TAG, sbprint)
                             var gson = Gson()
-                            data = gson.fromJson(sbprint, Data::class.java)
-                            Toast.makeText(context, data.sensor_0[0].toString(),Toast.LENGTH_LONG).show()
-                            InTemp.text = data.sensor_0[0].toString()
-                            InHum.text = data.sensor_0[1].toString()
-                            OutTemp.text = data.sensor_1[0].toString()
-                            OutHum.text = data.sensor_1[1].toString()
+                            try {
+                                data = gson.fromJson(sbprint, Data::class.java)
+                                Toast.makeText(
+                                    context,
+                                    data.sensor_0[0].toString(),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                InTemp.text = data.sensor_0[0].toString()
+                                InHum.text = data.sensor_0[1].toString()
+                                OutTemp.text = data.sensor_1[0].toString()
+                                OutHum.text = data.sensor_1[1].toString()
+                            }catch (e: Exception){
+
+                            }
                         }
                     }
                 }
@@ -73,6 +81,7 @@ class HomeFragment : Fragment() {
         }
         btAdapter = BluetoothAdapter.getDefaultAdapter()
         checkBTState()
+
         val button_cold: Button = view.findViewById(R.id.button_cold);
         val gson = Gson()
         button_cold.setOnClickListener{
@@ -140,6 +149,15 @@ class HomeFragment : Fragment() {
         Log.d(TAG, "...Создание Socket...")
         mConnectedThread = ConnectedThread(btSocket!!)
         mConnectedThread!!.start()
+
+        val runnable = Runnable {
+            while(true){
+                mConnectedThread!!.write("%{\"type\":\"g_temp_info\"}@")
+                Thread.sleep(15000)
+            }
+        }
+        val thread = Thread(runnable)
+        thread.start()
     }
 
     public override fun onPause() {
