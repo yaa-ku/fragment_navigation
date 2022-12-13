@@ -84,6 +84,7 @@ public object Store {
                 )
             )
         }
+        Log.d("bluetooth", dataList[0].temperature.toString())
     }
 
     public fun filter() {
@@ -304,12 +305,10 @@ class ChartsFragment : Fragment() {
                         val endOfLineIndex = sb.indexOf("@") // определяем символы конца строки
                         if (endOfLineIndex > 0) {                                            // если встречаем конец строки,
                             var sbprint = sb.substring(0, endOfLineIndex) // то извлекаем строку
-                            sb.delete(0, sb.length) // и очищаем sb
-                            Log.d(TAG, sbprint)
+                            sb.delete(0, sb.length)
                             var gson = Gson()
                             try {
                                 dataArray = gson.fromJson(sbprint, DataForCharsets::class.java)
-                                Log.d(TAG, dataArray.toString())
                                 Store.fillData2(dataArray)
                                 Store.resetFilter()
                                 mainEvent()
@@ -389,15 +388,21 @@ class ChartsFragment : Fragment() {
         private val mmInStream: InputStream?
         private val mmOutStream: OutputStream?
         override fun run() {
-            val buffer = ByteArray(32)
-            var bytes: Int
+            //val buffer = ByteArray(32)
+            //var bytes: Int
             while (true) {
                 try {
-                    bytes =
-                        mmInStream!!.read(buffer)
-                    h?.obtainMessage(RECEIVE_MESSAGE, bytes, -1, buffer)
-                        ?.sendToTarget()
+                    var bytes = mmInStream!!.available()
+                    if (bytes == 0) {
+                        sleep(10)
+                        continue
+                    }
+                    val buffer = ByteArray(bytes)
+
+                    bytes =mmInStream!!.read(buffer)
+                    h?.obtainMessage(RECEIVE_MESSAGE, bytes, -1, buffer)?.sendToTarget()
                 } catch (e: IOException) {
+                    Log.d(TAG, e.message.toString());
                     break
                 }
             }

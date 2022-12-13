@@ -174,15 +174,21 @@ class HomeFragment : Fragment() {
         private val mmInStream: InputStream?
         private val mmOutStream: OutputStream?
         override fun run() {
-            val buffer = ByteArray(256)
-            var bytes: Int
+            //val buffer = ByteArray(32)
+            //var bytes: Int
             while (true) {
                 try {
-                    bytes =
-                        mmInStream!!.read(buffer)
-                    h?.obtainMessage(RECEIVE_MESSAGE, bytes, -1, buffer)
-                        ?.sendToTarget()
+                    var bytes = mmInStream!!.available()
+                    if (bytes == 0) {
+                        sleep(10)
+                        continue
+                    }
+                    val buffer = ByteArray(bytes)
+
+                    bytes =mmInStream!!.read(buffer)
+                    h?.obtainMessage(RECEIVE_MESSAGE, bytes, -1, buffer)?.sendToTarget()
                 } catch (e: IOException) {
+                    Log.d(TAG, e.message.toString());
                     break
                 }
             }
