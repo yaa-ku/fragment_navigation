@@ -201,6 +201,18 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25">
 
+                    <Button
+                        android:id="@+id/button_off"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="ВЫКЛЮЧИТЬ"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:background="@color/white">
+
+                    </Button>
+
                 </LinearLayout>
 
                 <Button

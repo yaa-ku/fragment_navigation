@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.example.fragment_navigation.databinding.FragmentHomeBinding
 import com.google.gson.Gson
@@ -21,6 +22,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import java.util.*
+import java.util.jar.Manifest
 
 class HomeFragment : Fragment() {
     var h: Handler? = null
@@ -31,11 +33,63 @@ class HomeFragment : Fragment() {
     private var mConnectedThread: ConnectedThread? = null
     var data = Data(arrayOf(0, 0), arrayOf(0, 0), arrayOf(0, 0, 0))
     private lateinit var binding: FragmentHomeBinding
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            Log.d(TAG, "...onResume - попытка соединения...")
 
+            val device = btAdapter!!.getRemoteDevice(address)
+            if (isGranted) {
+                try {
+                    btSocket = device.createRfcommSocketToServiceRecord(MY_UUID)
+                    btAdapter!!.cancelDiscovery()
+                    btSocket!!.connect()
+
+                } catch (e: IOException) {
+                    errorExit("Fatal Error", "In onResume() and socket create failed: " + e.message + ".")
+                }
+                catch (e:SecurityException){
+                    //do nothing
+                }
+                Log.d(TAG, "...Соединяемся...")
+                try {
+                    Log.d(TAG, "...Соединение установлено и готово к передачи данных...")
+                } catch (e: IOException) {
+                    try {
+                        btSocket!!.close()
+                        Log.d(TAG, "Соединение не установлено")
+                    } catch (e2: IOException) {
+                        errorExit(
+                            "Fatal Error",
+                            "In onResume() and unable to close socket during connection failure" + e2.message + "."
+                        )
+                    }
+                }
+                Log.d(TAG, "...Создание Socket...")
+                mConnectedThread = ConnectedThread(btSocket!!)
+                mConnectedThread!!.start()
+
+                val runnable = Runnable {
+                    while(true){
+                        mConnectedThread!!.write("%{\"type\":\"g_temp_info\"}@")
+                        Thread.sleep(15000)
+                    }
+                }
+                val thread = Thread(runnable)
+                thread.start()
+            } else {
+                // Explain to the user that the feature is unavailable because the
+                // feature requires a permission that the user has denied. At the
+                // same time, respect the user's decision. Don't link to system
+                // settings in an effort to convince the user to change their
+                // decision.
+            }
+        }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
         binding = FragmentHomeBinding.inflate(layoutInflater)
@@ -112,47 +166,22 @@ class HomeFragment : Fragment() {
             }
         }
 
+        val button_off: Button = view.findViewById(R.id.button_off);
+        button_off.setOnClickListener{
+            try {
+                mConnectedThread!!.write("%{\"type\":\"set_state_off\"}@")
+            }catch(e: java.lang.Exception){
+                Toast.makeText(context, "Некорректное значение", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         return view
     }
 
     public override fun onResume() {
         super.onResume()
-        Log.d(TAG, "...onResume - попытка соединения...")
-        val device = btAdapter!!.getRemoteDevice(address)
-        try {
-            btSocket = device.createRfcommSocketToServiceRecord(MY_UUID)
-        } catch (e: IOException) {
-            errorExit("Fatal Error", "In onResume() and socket create failed: " + e.message + ".")
-        }
-        btAdapter!!.cancelDiscovery()
-        Log.d(TAG, "...Соединяемся...")
-        try {
-            btSocket!!.connect()
-            Log.d(TAG, "...Соединение установлено и готово к передачи данных...")
-        } catch (e: IOException) {
-            try {
-                btSocket!!.close()
-                Log.d(TAG, "Соединение не установлено")
-            } catch (e2: IOException) {
-                errorExit(
-                    "Fatal Error",
-                    "In onResume() and unable to close socket during connection failure" + e2.message + "."
-                )
-            }
-        }
-        Log.d(TAG, "...Создание Socket...")
-        mConnectedThread = ConnectedThread(btSocket!!)
-        mConnectedThread!!.start()
+        this.requestPermissionLauncher.launch(android.Manifest.permission.BLUETOOTH)
 
-        val runnable = Runnable {
-            while(true){
-                mConnectedThread!!.write("%{\"type\":\"g_temp_info\"}@")
-                Thread.sleep(15000)
-            }
-        }
-        val thread = Thread(runnable)
-        thread.start()
     }
 
     public override fun onPause() {

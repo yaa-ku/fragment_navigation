@@ -80,7 +80,7 @@ public object Store {
                     temperature2 = dataArray.ARR[i].sensor_1[0].toDouble(),
                     humidity2 = dataArray.ARR[i].sensor_1[1].toDouble(),
                     date = "${i}.11.2022",
-                    time = dataArray.ARR[i].time[2].toString() + ":" + dataArray.ARR[i].time[1].toString() + ":" + dataArray.ARR[i].time[0].toString()
+                    time = dataArray.ARR[i].time[0].toString() + ":" + dataArray.ARR[i].time[1].toString() + ":" + dataArray.ARR[i].time[2].toString()
                 )
             )
         }
