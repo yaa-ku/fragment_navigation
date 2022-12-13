@@ -84,7 +84,6 @@ public object Store {
                 )
             )
         }
-        Log.d("bluetooth", dataList[0].temperature.toString())
     }
 
     public fun filter() {
@@ -216,8 +215,8 @@ class ChartsFragment : Fragment() {
     lateinit var aaChartModel2: AAChartModel
 
     private fun mainEvent() {
-        Store.dataList.clear()
-        Store.filter()
+        //Store.dataList.clear()
+        //Store.filter()
         //Работаем с температурой
         val temperatureData = ArrayList<Double>()
         for (index in 0 until Store.dataList.size) {
@@ -246,7 +245,7 @@ class ChartsFragment : Fragment() {
 
         //val aaChartView = view?.findViewById<AAChartView>(com.example.fragment_navigation.R.id.aa_chart_view)
         val aaChartModel1: AAChartModel = AAChartModel()
-            .chartType(AAChartType.Area)
+            .chartType(AAChartType.Line)
             .dataLabelsEnabled(true)
             .legendEnabled(false)
             .title("Влажность")
@@ -257,16 +256,17 @@ class ChartsFragment : Fragment() {
                     AASeriesElement()
                         .name("Влажность")
                         .data(humidityData.toArray())
-                        .color("#44BBCC")
+                        .color("#44BBCC"),
+                    AASeriesElement()
                         .data(humidityData2.toArray())
-                        .color("#4682B4"),
+                        .color("#4682B4")
 
                 ),
             ).categories(xAxisText.toArray(arrayOf(String())))
 
         //val aaChartView2 = view?.findViewById<AAChartView>(com.example.fragment_navigation.R.id.aa_chart_view2)
         val aaChartModel2: AAChartModel = AAChartModel()
-            .chartType(AAChartType.Area)
+            .chartType(AAChartType.Line)
             .dataLabelsEnabled(true)
             .legendEnabled(false)
             .yAxisTitle("Градусы °C")
@@ -277,9 +277,12 @@ class ChartsFragment : Fragment() {
                     AASeriesElement()
                         .name("Температура")
                         .data(temperatureData.toArray())
-                        .color("#FF8E18")
+                        .color("#FF8E18"),
+
+                    AASeriesElement()
                         .data(temperatureData2.toArray())
-                        .color("#DDBB22"),
+                        .color("#DDBB22")
+
                 ),
 
             ).categories(xAxisText.toArray(arrayOf(String())))
@@ -310,7 +313,7 @@ class ChartsFragment : Fragment() {
                             try {
                                 dataArray = gson.fromJson(sbprint, DataForCharsets::class.java)
                                 Store.fillData2(dataArray)
-                                Store.resetFilter()
+                                //Store.resetFilter()
                                 mainEvent()
                             }catch (e: Exception){
                                 Log.d(TAG, "ERROR "+e.message.toString())

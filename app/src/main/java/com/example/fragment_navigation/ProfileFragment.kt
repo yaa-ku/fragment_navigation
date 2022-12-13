@@ -24,6 +24,12 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         user = FirebaseAuth.getInstance()
+
+        if (user.currentUser != null) {
+            user.currentUser?.let {
+                binding.tvUserEmail.text = it.email
+            }
+        }
         binding.btnSignOut.setOnClickListener {
             user.signOut()
             requireActivity().startActivity(Intent(context, Register::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))

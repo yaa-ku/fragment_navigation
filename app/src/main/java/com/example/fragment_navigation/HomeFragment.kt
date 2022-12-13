@@ -62,11 +62,6 @@ class HomeFragment : Fragment() {
                             var gson = Gson()
                             try {
                                 data = gson.fromJson(sbprint, Data::class.java)
-                                Toast.makeText(
-                                    context,
-                                    data.sensor_0[0].toString(),
-                                    Toast.LENGTH_LONG
-                                ).show()
                                 InTemp.text = data.sensor_0[0].toString()
                                 InHum.text = data.sensor_0[1].toString()
                                 OutTemp.text = data.sensor_1[0].toString()
@@ -86,7 +81,7 @@ class HomeFragment : Fragment() {
         val gson = Gson()
         button_cold.setOnClickListener{
             var request = "%"
-            request += gson.toJson(Request("set_temp_support", 0, 100))
+            request += gson.toJson(Request("set_temp_support", 0, 65535))
             request += "@"
             mConnectedThread!!.write(request)
         }
@@ -94,7 +89,7 @@ class HomeFragment : Fragment() {
         val button_hot: Button = view.findViewById(R.id.button_hot);
         button_hot.setOnClickListener{
             var request = "%"
-            request += gson.toJson(Request("set_temp_support", 255, 100))
+            request += gson.toJson(Request("set_temp_support", 255, 65535))
             request += "@"
             mConnectedThread!!.write(request)
         }
@@ -107,7 +102,7 @@ class HomeFragment : Fragment() {
                     Request(
                         "set_temp_support",
                         EditTemperature.text.toString().toInt(),
-                        100
+                        65535
                     )
                 )
                 request += "@"
