@@ -252,6 +252,7 @@
 
                     <EditText
                         android:id="@+id/editTemperature"
+                        android:textColor="@color/black"
                         android:layout_width="100dp"
                         android:layout_height="75dp"
                         android:inputType="numberDecimal"

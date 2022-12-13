@@ -11,6 +11,10 @@ class MainActivity : AppCompatActivity() {
         val binding: ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.frame_layout, HomeFragment())
+        transaction.commit()
+
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId){
                     R.id.home -> {
