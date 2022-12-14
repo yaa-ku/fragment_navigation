@@ -80,9 +80,19 @@ public object Store {
                     temperature2 = dataArray.ARR[i].sensor_1[0].toDouble(),
                     humidity2 = dataArray.ARR[i].sensor_1[1].toDouble(),
                     date = "${i}.11.2022",
-                    time = dataArray.ARR[i].time[0].toString() + ":" + dataArray.ARR[i].time[1].toString() + ":" + dataArray.ARR[i].time[2].toString()
+                    time = dataArray.ARR[i].time[0].toString() + ":" + dataArray.ARR[i].time[1].toString() + ":" + dataArray.ARR[i].time[2].toString(),
+                    timeS = dataArray.ARR[i].time[0]*3600 + dataArray.ARR[i].time[1] + dataArray.ARR[i].time[2] as Double
                 )
             )
+        }
+        for (i in 0 until dataList.size - 1){
+            for (j in i + 1 until dataList.size){
+                if(dataList[i].timeS > dataList[j].timeS){
+                    val buf = dataList[i]
+                    dataList[i] = dataList[j]
+                    dataList[j] = buf
+                }
+            }
         }
     }
 
@@ -206,10 +216,9 @@ class ChartsFragment : Fragment() {
         var temperature: Double = 0.0,
         var humidity: Double = 0.0,
         var temperature2: Double = 0.0,
-        var humidity2: Double = 0.0
+        var humidity2: Double = 0.0,
+        var timeS: Double = 0.0
     )
-
-
 
     lateinit var aaChartModel1: AAChartModel
     lateinit var aaChartModel2: AAChartModel
@@ -313,7 +322,7 @@ class ChartsFragment : Fragment() {
                             try {
                                 dataArray = gson.fromJson(sbprint, DataForCharsets::class.java)
                                 Store.fillData2(dataArray)
-                                //Store.resetFilter()
+                                Store.resetFilter()
                                 mainEvent()
                             }catch (e: Exception){
                                 Log.d(TAG, "ERROR "+e.message.toString())
